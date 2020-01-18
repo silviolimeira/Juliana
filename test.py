@@ -6,19 +6,19 @@ wordApp = win32.gencache.EnsureDispatch('Word.Application') #create a word appli
 wordApp.Visible = True # hide the word application
 doc = wordApp.Documents.Add() # create a new application
 
-#Formating the document
-doc.PageSetup.RightMargin = 5
-doc.PageSetup.LeftMargin = 5
-doc.PageSetup.TopMargin = 5
-doc.PageSetup.BottomMargin = 5
+#Formating the documents
+doc.PageSetup.RightMargin = 33.50
+doc.PageSetup.LeftMargin = 33.50
+doc.PageSetup.TopMargin = 33.50
+doc.PageSetup.BottomMargin = 33.50
 doc.PageSetup.Orientation = win32.constants.wdOrientLandscape
 # a4 paper size: 595x842
-doc.PageSetup.PageWidth = 595
-doc.PageSetup.PageHeight = 842
+doc.PageSetup.PageWidth = 595   # 210
+doc.PageSetup.PageHeight = 842  # 297
 
 
 # Inserting Tables
-my_dir="C:\Users\Public\Pictures"
+my_dir="G:\imagens"
 filenames = os.listdir(my_dir)
 piccount=0
 file_count = 0
@@ -32,14 +32,14 @@ total_column = 1
 total_row = int(piccount/total_column)+2
 rng = doc.Range(0,0)
 rng.ParagraphFormat.Alignment = win32.constants.wdAlignParagraphCenter
-table = doc.Tables.Add(rng,total_row, total_column)
+table = doc.Tables.Add(rng,total_row*2, total_column)
 table.Borders.Enable = False
 if total_column > 1:
     table.Columns.DistributeWidth()
 
 #Collecting images in the same directory and inserting them into the document
-frame_max_width= 167 # the maximum width of a picture
-frame_max_height= 125 # the maximum height of a picture
+frame_max_width= 400 # the maximum width of a picture
+frame_max_height= 600 # the maximum height of a picture
 
 
 piccount = 1
@@ -48,13 +48,19 @@ for index, filename in enumerate(filenames): # loop through all the files and fo
     #if os.path.isfile(os.path.join(os.path.abspath("."), filename)):
     if os.path.isfile(os.path.join(os.path.abspath(my_dir), filename)): # check whether the current object is a file or not
         if filename[len(filename)-3: len(filename)].upper() == 'JPG': # check whether the current object is a JPG file
-            piccount = piccount + 1
+            piccount = piccount + 2
             print filename, len(filename), filename[len(filename)-3: len(filename)].upper()
 
 
             cell_column = (piccount % total_column + 1) #calculating the position of each image to be put into the correct table cell
             cell_row = (piccount/total_column + 1)
             print 'cell_column=%s,cell_row=%s' % (cell_column,cell_row)
+
+            table.Cell(cell_row -1, cell_column).Split(1,3)
+            table.Cell(cell_row -1, 1).SetWidth(120);
+            table.Cell(cell_row -1, 2).SetWidth(300);
+            table.Cell(cell_row -1, 3).SetWidth(120);
+
 
             #we are formatting the style of each cell
             cell_range= table.Cell(cell_row, cell_column).Range
@@ -72,5 +78,6 @@ for index, filename in enumerate(filenames): # loop through all the files and fo
 
             #putting a name underneath each image which can be handy
             table.Cell(cell_row, cell_column).Range.InsertAfter("\n"+filename)
+
         else: continue
         
