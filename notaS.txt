@@ -1,2 +1,11 @@
 
 https://python-docx.readthedocs.io/en/latest/user/install.html#install
+
+Rich Documentation:
+https://docs.microsoft.com/en-us/office/vba/api/word.cell.setwidth
+
+https://docs.microsoft.com/pt-br/office/vba/api/word.cells.split
+
+
+Example CSharp:
+https://www.codeproject.com/Questions/94144/how-to-set-columns-width-in-word-table-from-C
