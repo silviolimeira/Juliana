@@ -18,7 +18,10 @@ doc.PageSetup.PageHeight = 842  # 297
 
 
 # Inserting Tables
-my_dir="G:\imagens"
+pathlogo="G:\projetos\silvio.limeira\projetos\_2020\Juliana-Docs"
+logofilename="logo.jpg"
+
+my_dir="G:\projetos\silvio.limeira\projetos\_2020\Juliana-Docs\Validacao_Interna_CQ_90_Subst_Relacionadas\Protocolo Inicial"
 filenames = os.listdir(my_dir)
 piccount=0
 file_count = 0
@@ -39,7 +42,7 @@ if total_column > 1:
 
 #Collecting images in the same directory and inserting them into the document
 frame_max_width= 400 # the maximum width of a picture
-frame_max_height= 600 # the maximum height of a picture
+frame_max_height= 650 # the maximum height of a picture
 
 
 piccount = 1
@@ -57,9 +60,12 @@ for index, filename in enumerate(filenames): # loop through all the files and fo
             print 'cell_column=%s,cell_row=%s' % (cell_column,cell_row)
 
             table.Cell(cell_row -1, cell_column).Split(1,3)
-            table.Cell(cell_row -1, 1).SetWidth(120);
-            table.Cell(cell_row -1, 2).SetWidth(300);
-            table.Cell(cell_row -1, 3).SetWidth(120);
+            table.Cell(cell_row -1, 1).SetWidth(114)
+            table.Cell(cell_row -1, 2).SetWidth(349)
+            table.Cell(cell_row -1, 3).SetWidth(65)
+
+            table.Cell(cell_row -1, 2).Range.InsertAfter("\n\nControle de Qualidade do Medicamento")
+
 
 
             #we are formatting the style of each cell
@@ -76,8 +82,23 @@ for index, filename in enumerate(filenames): # loop through all the files and fo
             current_pic.Height= height
             current_pic.Width= width
 
+
+            # Add logo
+            cell_range= table.Cell(cell_row + 1, 0).Range
+            cell_range.ParagraphFormat.LineSpacingRule = win32.constants.wdLineSpaceSingle
+            cell_range.ParagraphFormat.SpaceBefore = 0
+            cell_range.ParagraphFormat.SpaceAfter = 0
+
+            current_logo = cell_range.InlineShapes.AddPicture(os.path.join(os.path.abspath(pathlogo), logofilename))
+            #width, height = (frame_max_height*frame_max_width/frame_max_height, frame_max_height)
+
+            #changing the size of each image to fit the table cell
+            #current_pic.Height= height
+            #current_pic.Width= width
+
             #putting a name underneath each image which can be handy
-            table.Cell(cell_row, cell_column).Range.InsertAfter("\n"+filename)
+            #table.Cell(cell_row, cell_column).Range.InsertAfter("\n"+filename)
+
 
         else: continue
         
