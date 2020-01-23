@@ -13,8 +13,8 @@ doc.PageSetup.TopMargin = 33.50
 doc.PageSetup.BottomMargin = 33.50
 doc.PageSetup.Orientation = win32.constants.wdOrientLandscape
 # a4 paper size: 595x842
-doc.PageSetup.PageWidth = 595   # 210
-doc.PageSetup.PageHeight = 842  # 297
+doc.PageSetup.PageWidth = 595   # 2100   = 0.283
+doc.PageSetup.PageHeight = 842  # 2970   = 0.283501
 
 
 # Inserting Tables
@@ -41,8 +41,8 @@ if total_column > 1:
     table.Columns.DistributeWidth()
 
 #Collecting images in the same directory and inserting them into the document
-frame_max_width= 400 # the maximum width of a picture
-frame_max_height= 650 # the maximum height of a picture
+frame_max_width= 500 # the maximum width of a picture
+frame_max_height= 720 # the maximum height of a picture
 
 
 piccount = 1
@@ -60,12 +60,12 @@ for index, filename in enumerate(filenames): # loop through all the files and fo
             print 'cell_column=%s,cell_row=%s' % (cell_column,cell_row)
 
             table.Cell(cell_row -1, cell_column).Split(1,3)
-            table.Cell(cell_row -1, 1).SetWidth(114)
-            table.Cell(cell_row -1, 2).SetWidth(349)
-            table.Cell(cell_row -1, 3).SetWidth(65)
+            table.Cell(cell_row -1, 1).SetWidth(80)
+            table.Cell(cell_row -1, 2).SetWidth(340)
+            table.Cell(cell_row -1, 3).SetWidth(108)
 
-            table.Cell(cell_row -1, 2).Range.InsertAfter("\n\nControle de Qualidade do Medicamento")
-
+            table.Cell(cell_row -1, 2).Range.InsertAfter("Insumo Farmaceutico Ativo IFA")
+            table.Cell(cell_row -1, 2).Range.ParagraphFormat.SpaceBefore = 15
 
 
             #we are formatting the style of each cell
@@ -86,7 +86,7 @@ for index, filename in enumerate(filenames): # loop through all the files and fo
             # Add logo
             cell_range= table.Cell(cell_row + 1, 0).Range
             cell_range.ParagraphFormat.LineSpacingRule = win32.constants.wdLineSpaceSingle
-            cell_range.ParagraphFormat.SpaceBefore = 0
+            cell_range.ParagraphFormat.SpaceBefore = 5
             cell_range.ParagraphFormat.SpaceAfter = 0
 
             current_logo = cell_range.InlineShapes.AddPicture(os.path.join(os.path.abspath(pathlogo), logofilename))
@@ -95,6 +95,8 @@ for index, filename in enumerate(filenames): # loop through all the files and fo
             #changing the size of each image to fit the table cell
             #current_pic.Height= height
             #current_pic.Width= width
+            current_logo.Height = 39
+            current_logo.Width = 51
 
             #putting a name underneath each image which can be handy
             #table.Cell(cell_row, cell_column).Range.InsertAfter("\n"+filename)
